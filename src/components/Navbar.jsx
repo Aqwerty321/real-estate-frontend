@@ -14,14 +14,14 @@ export default function Navbar({ isScrolled = false }) {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-[72px] flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-gold-300 to-gold-500 flex items-center justify-center shadow-lg shadow-gold-500/30">
-            <Building2 className="w-5 h-5 text-navy-950" />
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 sm:h-24 lg:h-28 flex items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-gold-300 to-gold-500 flex items-center justify-center shadow-lg shadow-gold-500/30">
+            <Building2 className="w-6 h-6 text-navy-950" />
           </div>
           <div>
-            <h1 className="font-display text-lg tracking-tight text-white leading-none">Meridian</h1>
-            <p className="text-[10px] font-semibold tracking-[0.22em] text-gold-300 uppercase">
+            <h1 className="font-display text-2xl tracking-tight text-white leading-none">Meridian</h1>
+            <p className="text-xs font-semibold tracking-[0.22em] text-gold-300 uppercase">
               Intelligence
             </p>
           </div>
@@ -40,10 +40,10 @@ export default function Navbar({ isScrolled = false }) {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-400/30">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse" />
-            <span className="text-xs font-medium text-emerald-200 flex items-center gap-1">
-              <TrendingUp className="w-3 h-3" />
+          <div className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-500/15 border border-emerald-400/30">
+            <span className="w-2 h-2 rounded-full bg-emerald-300 animate-pulse" />
+            <span className="text-sm font-medium text-emerald-200 flex items-center gap-1">
+              <TrendingUp className="w-3.5 h-3.5" />
               Live
             </span>
           </div>

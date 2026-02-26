@@ -45,7 +45,7 @@ export default function HeroCinematic({
   const resolvedActiveIndex = safeImages.length > 0 ? activeImageIndex % safeImages.length : 0;
 
   return (
-    <section className="hero-cinematic relative min-h-[72vh] md:min-h-screen overflow-hidden">
+    <section className="hero-cinematic relative min-h-screen overflow-hidden">
       <div className="absolute inset-0">
         {safeImages.map((image, index) => {
           const isActive = index === resolvedActiveIndex;
@@ -75,23 +75,28 @@ export default function HeroCinematic({
       <div className="ambient-grain absolute inset-0 opacity-50" />
       <div className="hero-vignette" />
 
-      <div className="relative z-10 h-full px-4 sm:px-6">
-        <div className="max-w-7xl mx-auto min-h-[72vh] md:min-h-screen flex flex-col justify-center pt-24 pb-44">
-          <motion.div initial="hidden" animate="visible" variants={heroContentVariants}>
-            <p className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] uppercase tracking-[0.18em] text-gold-300 border border-gold-300/20 bg-navy-950/40 backdrop-blur-sm">
+      <div className="relative z-10 h-full px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto min-h-screen flex flex-col justify-center items-center pt-32 pb-56 sm:pb-64">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={heroContentVariants}
+            className="max-w-6xl text-center"
+          >
+            <p className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs uppercase tracking-[0.2em] text-gold-200 border border-gold-300/25 bg-navy-950/45 backdrop-blur-sm">
               <Sparkles className="w-3.5 h-3.5" />
               Cinematic Intelligence Layer
             </p>
 
-            <h1 className="font-display mt-5 text-4xl sm:text-5xl lg:text-7xl leading-[0.95] text-white max-w-4xl text-balance">
+            <h1 className="font-display mt-8 text-[clamp(3.25rem,8.5vw,9rem)] leading-[0.9] text-white text-balance">
               {headline}
             </h1>
 
-            <p className="mt-5 text-sm sm:text-base lg:text-lg text-navy-100/90 leading-relaxed max-w-2xl">
+            <p className="mt-7 text-[clamp(1.05rem,2.1vw,1.55rem)] text-navy-100/92 leading-relaxed max-w-4xl mx-auto">
               {subcopy}
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/10 border border-white/15 px-4 py-2 text-xs font-semibold text-white">
                 <MapPin className="w-3.5 h-3.5 text-gold-300" />
                 {locationLabel}

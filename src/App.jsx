@@ -144,11 +144,11 @@ export default function App() {
           scrollProgress={progress}
         />
 
-        <div className="relative z-20 -mt-32 sm:-mt-36 px-4 sm:px-6">
+        <div className="relative z-20 -mt-[16rem] sm:-mt-[18rem] lg:-mt-[20rem] px-4 sm:px-8">
           <QueryDock onSubmit={handleSubmit} isLoading={loading} error={error} onRetry={handleRetry} />
         </div>
 
-        <section className="relative pt-14 sm:pt-16 pb-20 px-4 sm:px-6">
+        <section className="relative pt-10 sm:pt-14 pb-24 px-4 sm:px-8">
           <div className="max-w-7xl mx-auto">
             <AnimatePresence mode="wait">
               {results && !loading ? (
@@ -170,12 +170,12 @@ export default function App() {
                     key="empty"
                     initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="surface-glass-soft rounded-3xl p-7 sm:p-10 border border-white/10 text-center"
+                    className="surface-glass-soft rounded-3xl p-8 sm:p-12 border border-white/10 text-center max-w-5xl mx-auto"
                   >
-                    <p className="font-display text-2xl sm:text-3xl text-white mb-3">
+                    <p className="font-display text-3xl sm:text-4xl lg:text-5xl text-white mb-4">
                       Build a market brief to start.
                     </p>
-                    <p className="text-sm sm:text-base text-navy-200 max-w-2xl mx-auto">
+                    <p className="text-base sm:text-lg text-navy-200 max-w-3xl mx-auto">
                       Your report will include macro trend context, mapped listings, normalized
                       pricing, and source-linked evidence in one response.
                     </p>

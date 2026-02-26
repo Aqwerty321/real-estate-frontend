@@ -10,9 +10,9 @@ export default function QueryDock({ onSubmit, isLoading, error, onRetry }) {
       initial="hidden"
       animate="visible"
       variants={dockVariants}
-      className="relative max-w-6xl mx-auto"
+      className="relative max-w-[96rem] mx-auto w-full"
     >
-      <div className="surface-glass-strong rounded-3xl p-4 sm:p-6 lg:p-8 shadow-2xl shadow-navy-950/40 border border-white/10">
+      <div className="surface-glass-strong rounded-3xl p-6 sm:p-8 lg:p-11 shadow-2xl shadow-navy-950/40 border border-white/10">
         <QueryBuilder onSubmit={onSubmit} isLoading={isLoading} variant="overlay" compact />
       </div>
 
