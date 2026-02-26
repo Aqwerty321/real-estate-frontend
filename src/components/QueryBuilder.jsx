@@ -2,144 +2,238 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, ChevronDown, Sparkles } from 'lucide-react';
 
-const LOCATIONS = ['Miami', 'New York City', 'Austin', 'Los Angeles', 'San Francisco', 'Chicago', 'Seattle', 'Denver', 'Boston', 'Nashville'];
-const PROPERTY_TYPES = ['Luxury Condo', 'Single Family Home', 'Penthouse', 'Townhouse', 'Waterfront Villa', 'Modern Loft'];
-const BUDGET_RANGES = [
-    { label: '$500K – $1M', value: 'under $1M' },
-    { label: '$1M – $3M', value: 'between $1M and $3M' },
-    { label: '$3M – $5M', value: 'between $3M and $5M' },
-    { label: '$5M – $10M', value: 'between $5M and $10M' },
-    { label: '$10M+', value: 'over $10M' },
+const LOCATIONS = [
+  'Miami',
+  'New York City',
+  'Austin',
+  'Los Angeles',
+  'San Francisco',
+  'Chicago',
+  'Seattle',
+  'Denver',
+  'Boston',
+  'Nashville',
 ];
-const FEATURES = ['Waterfront', 'Pool', 'City View', 'Smart Home', 'Garage', 'Rooftop Terrace', 'Wine Cellar', 'Home Theater', 'Gym', 'Concierge'];
 
-function SelectField({ label, value, onChange, options, icon }) {
-    return (
-        <div className="relative group">
-            <label className="block text-xs font-semibold text-navy-400 uppercase tracking-wider mb-2">
-                {label}
-            </label>
-            <div className="relative">
-                <select
-                    value={value}
-                    onChange={(e) => onChange(e.target.value)}
-                    className="w-full appearance-none bg-navy-800/80 border border-navy-600/50 rounded-xl px-4 py-3.5 pr-10 text-sm font-medium text-white focus:outline-none focus:border-gold-500/50 focus:ring-1 focus:ring-gold-500/20 transition-all cursor-pointer hover:border-navy-500/70"
-                >
-                    <option value="">Select {label}</option>
-                    {options.map((opt) => (
-                        <option key={typeof opt === 'string' ? opt : opt.value} value={typeof opt === 'string' ? opt : opt.value}>
-                            {typeof opt === 'string' ? opt : opt.label}
-                        </option>
-                    ))}
-                </select>
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400 pointer-events-none group-hover:text-navy-300 transition-colors" />
-            </div>
-        </div>
-    );
-}
+const PROPERTY_TYPES = [
+  'Luxury Condo',
+  'Single Family Home',
+  'Penthouse',
+  'Townhouse',
+  'Waterfront Villa',
+  'Modern Loft',
+];
 
-function MultiSelectField({ label, selected, onChange, options }) {
-    const toggleFeature = (feature) => {
-        if (selected.includes(feature)) {
-            onChange(selected.filter((f) => f !== feature));
-        } else {
-            onChange([...selected, feature]);
-        }
-    };
+const BUDGET_RANGES = [
+  { label: '$500K - $1M', value: 'under $1M' },
+  { label: '$1M - $3M', value: 'between $1M and $3M' },
+  { label: '$3M - $5M', value: 'between $3M and $5M' },
+  { label: '$5M - $10M', value: 'between $5M and $10M' },
+  { label: '$10M+', value: 'over $10M' },
+];
 
-    return (
-        <div>
-            <label className="block text-xs font-semibold text-navy-400 uppercase tracking-wider mb-2">
-                {label}
-            </label>
-            <div className="flex flex-wrap gap-2">
-                {options.map((feature) => {
-                    const isActive = selected.includes(feature);
-                    return (
-                        <button
-                            key={feature}
-                            type="button"
-                            onClick={() => toggleFeature(feature)}
-                            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive
-                                    ? 'bg-gold-500/20 border border-gold-500/40 text-gold-400'
-                                    : 'bg-navy-800/60 border border-navy-600/30 text-navy-300 hover:border-navy-500/50 hover:text-navy-200'
-                                }`}
-                        >
-                            {feature}
-                        </button>
-                    );
-                })}
-            </div>
-        </div>
-    );
-}
+const FEATURES = [
+  'Waterfront',
+  'Pool',
+  'City View',
+  'Smart Home',
+  'Garage',
+  'Rooftop Terrace',
+  'Wine Cellar',
+  'Home Theater',
+  'Gym',
+  'Concierge',
+];
 
-export default function QueryBuilder({ onSubmit, isLoading }) {
-    const [location, setLocation] = useState('');
-    const [propertyType, setPropertyType] = useState('');
-    const [budget, setBudget] = useState('');
-    const [features, setFeatures] = useState([]);
-
-    const canSubmit = location && propertyType && budget && !isLoading;
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!canSubmit) return;
-
-        let message = `Find me ${propertyType.toLowerCase()} properties in ${location} ${budget}`;
-        if (features.length > 0) {
-            message += ` with ${features.join(', ').toLowerCase()}`;
-        }
-        message += '.';
-
-        onSubmit(message);
-    };
-
-    return (
-        <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: 'easeOut' }}
+function SelectField({ label, value, onChange, options, isOverlay, compact }) {
+  return (
+    <div className="relative group">
+      <label
+        className={`block text-[11px] font-semibold uppercase tracking-[0.12em] mb-2 ${
+          isOverlay ? 'text-navy-200/85' : 'text-navy-400'
+        }`}
+      >
+        {label}
+      </label>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`w-full appearance-none rounded-xl pr-10 text-sm font-medium transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300/70 ${
+            compact ? 'px-3.5 py-3' : 'px-4 py-3.5'
+          } ${
+            isOverlay
+              ? 'bg-navy-950/65 border border-white/15 text-white hover:border-gold-300/30'
+              : 'bg-navy-800/80 border border-navy-600/50 text-white hover:border-navy-500/70'
+          }`}
         >
-            <form onSubmit={handleSubmit} className="glass-card rounded-2xl p-8">
-                {/* Header */}
-                <div className="flex items-center gap-3 mb-8">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-500/20 to-gold-600/10 flex items-center justify-center border border-gold-500/20">
-                        <Search className="w-5 h-5 text-gold-400" />
-                    </div>
-                    <div>
-                        <h2 className="text-lg font-bold text-white">Query Builder</h2>
-                        <p className="text-xs text-navy-400">Configure your market intelligence parameters</p>
-                    </div>
-                </div>
+          <option value="">Select {label}</option>
+          {options.map((option) => {
+            const key = typeof option === 'string' ? option : option.value;
+            const valueToUse = typeof option === 'string' ? option : option.value;
+            const labelToUse = typeof option === 'string' ? option : option.label;
 
-                {/* Fields */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                    <SelectField label="Location" value={location} onChange={setLocation} options={LOCATIONS} />
-                    <SelectField label="Property Type" value={propertyType} onChange={setPropertyType} options={PROPERTY_TYPES} />
-                    <SelectField label="Budget Range" value={budget} onChange={setBudget} options={BUDGET_RANGES} />
-                </div>
+            return (
+              <option key={key} value={valueToUse}>
+                {labelToUse}
+              </option>
+            );
+          })}
+        </select>
+        <ChevronDown
+          className={`absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none transition-colors ${
+            isOverlay ? 'text-navy-300 group-hover:text-navy-200' : 'text-navy-400 group-hover:text-navy-300'
+          }`}
+        />
+      </div>
+    </div>
+  );
+}
 
-                {/* Features */}
-                <div className="mb-8">
-                    <MultiSelectField label="Desired Features" selected={features} onChange={setFeatures} options={FEATURES} />
-                </div>
+function MultiSelectField({ selected, onChange, options, isOverlay }) {
+  const toggleFeature = (feature) => {
+    if (selected.includes(feature)) {
+      onChange(selected.filter((item) => item !== feature));
+      return;
+    }
+    onChange([...selected, feature]);
+  };
 
-                {/* Submit */}
-                <motion.button
-                    type="submit"
-                    disabled={!canSubmit}
-                    whileHover={canSubmit ? { scale: 1.01 } : {}}
-                    whileTap={canSubmit ? { scale: 0.99 } : {}}
-                    className={`w-full py-4 rounded-xl text-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 ${canSubmit
-                            ? 'bg-gradient-to-r from-gold-500 to-gold-600 text-navy-950 hover:from-gold-400 hover:to-gold-500 shadow-lg shadow-gold-500/20 cursor-pointer'
-                            : 'bg-navy-700/50 text-navy-500 cursor-not-allowed'
-                        }`}
-                >
-                    <Sparkles className="w-4 h-4" />
-                    Generate Market Report
-                </motion.button>
-            </form>
-        </motion.div>
-    );
+  return (
+    <div>
+      <label
+        className={`block text-[11px] font-semibold uppercase tracking-[0.12em] mb-2 ${
+          isOverlay ? 'text-navy-200/85' : 'text-navy-400'
+        }`}
+      >
+        Desired Features
+      </label>
+      <div className="flex flex-wrap gap-2">
+        {options.map((feature) => {
+          const isActive = selected.includes(feature);
+
+          return (
+            <button
+              key={feature}
+              type="button"
+              onClick={() => toggleFeature(feature)}
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300/70 ${
+                isActive
+                  ? 'bg-gold-400/20 border border-gold-300/50 text-gold-200'
+                  : isOverlay
+                    ? 'bg-white/5 border border-white/15 text-navy-100 hover:border-white/25'
+                    : 'bg-navy-800/60 border border-navy-600/30 text-navy-300 hover:border-navy-500/50'
+              }`}
+            >
+              {feature}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+export default function QueryBuilder({
+  onSubmit,
+  isLoading,
+  variant = 'default',
+  compact = false,
+}) {
+  const [location, setLocation] = useState('');
+  const [propertyType, setPropertyType] = useState('');
+  const [budget, setBudget] = useState('');
+  const [features, setFeatures] = useState([]);
+
+  const isOverlay = variant === 'overlay';
+  const canSubmit = Boolean(location && propertyType && budget && !isLoading);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (!canSubmit) return;
+
+    let message = `Find me ${propertyType.toLowerCase()} properties in ${location} ${budget}`;
+    if (features.length > 0) {
+      message += ` with ${features.join(', ').toLowerCase()}`;
+    }
+    message += '.';
+
+    onSubmit(message);
+  };
+
+  return (
+    <motion.form
+      onSubmit={handleSubmit}
+      initial={isOverlay ? false : { y: 16, opacity: 0 }}
+      animate={isOverlay ? undefined : { y: 0, opacity: 1 }}
+      transition={{ duration: 0.55, ease: 'easeOut' }}
+      className={`${isOverlay ? '' : 'surface-glass-soft rounded-2xl border border-white/10'} ${
+        compact ? 'p-3 sm:p-4' : 'p-6 sm:p-8'
+      }`}
+    >
+      <div className={`flex items-center gap-3 ${compact ? 'mb-5' : 'mb-8'}`}>
+        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-gold-400/25 to-gold-500/15 border border-gold-300/30 flex items-center justify-center">
+          <Search className="w-5 h-5 text-gold-300" />
+        </div>
+        <div>
+          <h2 className="text-base sm:text-lg font-semibold text-white">Build Your Search Brief</h2>
+          <p className={`${isOverlay ? 'text-navy-200/75' : 'text-navy-400'} text-xs`}>
+            Configure market, asset type, and investment envelope
+          </p>
+        </div>
+      </div>
+
+      <div className={`grid grid-cols-1 md:grid-cols-3 ${compact ? 'gap-4' : 'gap-6'} mb-5`}>
+        <SelectField
+          label="Location"
+          value={location}
+          onChange={setLocation}
+          options={LOCATIONS}
+          isOverlay={isOverlay}
+          compact={compact}
+        />
+        <SelectField
+          label="Property Type"
+          value={propertyType}
+          onChange={setPropertyType}
+          options={PROPERTY_TYPES}
+          isOverlay={isOverlay}
+          compact={compact}
+        />
+        <SelectField
+          label="Budget Range"
+          value={budget}
+          onChange={setBudget}
+          options={BUDGET_RANGES}
+          isOverlay={isOverlay}
+          compact={compact}
+        />
+      </div>
+
+      <div className={compact ? 'mb-6' : 'mb-8'}>
+        <MultiSelectField
+          selected={features}
+          onChange={setFeatures}
+          options={FEATURES}
+          isOverlay={isOverlay}
+        />
+      </div>
+
+      <motion.button
+        type="submit"
+        disabled={!canSubmit}
+        whileTap={canSubmit ? { scale: 0.99 } : undefined}
+        className={`w-full rounded-xl text-sm font-semibold uppercase tracking-[0.12em] transition-all flex items-center justify-center gap-2 ${
+          compact ? 'py-3.5' : 'py-4'
+        } ${
+          canSubmit
+            ? 'bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 text-navy-950 shadow-lg shadow-gold-500/25 hover:brightness-105'
+            : 'bg-navy-700/55 text-navy-400 cursor-not-allowed'
+        }`}
+      >
+        <Sparkles className="w-4 h-4" />
+        {isLoading ? 'Generating Report...' : 'Generate Market Report'}
+      </motion.button>
+    </motion.form>
+  );
 }
