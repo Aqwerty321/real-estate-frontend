@@ -49,7 +49,9 @@ function SelectField({ label, value, onChange, options, isOverlay, compact }) {
   return (
     <div className="relative group">
       <label
-        className={`block text-sm font-semibold uppercase tracking-[0.1em] mb-2.5 ${
+        className={`block font-semibold uppercase tracking-[0.1em] mb-2 ${
+          compact ? 'text-xs' : 'text-sm'
+        } ${
           isOverlay ? 'text-navy-200/85' : 'text-navy-400'
         }`}
       >
@@ -59,8 +61,8 @@ function SelectField({ label, value, onChange, options, isOverlay, compact }) {
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`w-full appearance-none rounded-xl pr-10 text-lg font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300/70 ${
-            compact ? 'px-4.5 py-4' : 'px-5 py-4.5'
+          className={`w-full appearance-none rounded-xl pr-10 font-semibold transition-all cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300/70 ${
+            compact ? 'px-4 py-3 text-base' : 'px-5 py-4.5 text-lg'
           } ${
             isOverlay
               ? 'bg-navy-950/65 border border-white/15 text-white hover:border-gold-300/30'
@@ -90,7 +92,7 @@ function SelectField({ label, value, onChange, options, isOverlay, compact }) {
   );
 }
 
-function MultiSelectField({ selected, onChange, options, isOverlay }) {
+function MultiSelectField({ selected, onChange, options, isOverlay, compact }) {
   const toggleFeature = (feature) => {
     if (selected.includes(feature)) {
       onChange(selected.filter((item) => item !== feature));
@@ -102,7 +104,9 @@ function MultiSelectField({ selected, onChange, options, isOverlay }) {
   return (
     <div>
       <label
-        className={`block text-sm font-semibold uppercase tracking-[0.1em] mb-2.5 ${
+        className={`block font-semibold uppercase tracking-[0.1em] mb-2 ${
+          compact ? 'text-xs' : 'text-sm'
+        } ${
           isOverlay ? 'text-navy-200/85' : 'text-navy-400'
         }`}
       >
@@ -117,7 +121,9 @@ function MultiSelectField({ selected, onChange, options, isOverlay }) {
               key={feature}
               type="button"
               onClick={() => toggleFeature(feature)}
-              className={`px-4 py-2.5 rounded-lg text-base font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300/70 ${
+              className={`rounded-lg font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-300/70 ${
+                compact ? 'px-3 py-1.5 text-sm' : 'px-4 py-2.5 text-base'
+              } ${
                 isActive
                   ? 'bg-gold-400/20 border border-gold-300/50 text-gold-200'
                   : isOverlay
@@ -167,23 +173,21 @@ export default function QueryBuilder({
       initial={isOverlay ? false : { y: 16, opacity: 0 }}
       animate={isOverlay ? undefined : { y: 0, opacity: 1 }}
       transition={{ duration: 0.55, ease: 'easeOut' }}
-      className={`${isOverlay ? '' : 'surface-glass-soft rounded-2xl border border-white/10'} ${
-        compact ? 'p-5 sm:p-6' : 'p-7 sm:p-9'
-      }`}
+      className={isOverlay ? '' : `surface-glass-soft rounded-2xl border border-white/10 ${compact ? 'p-5 sm:p-6' : 'p-7 sm:p-9'}`}
     >
-      <div className={`flex items-center gap-4 ${compact ? 'mb-7' : 'mb-8'}`}>
-        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-400/25 to-gold-500/15 border border-gold-300/30 flex items-center justify-center">
-          <Search className="w-6 h-6 text-gold-300" />
+      <div className={`flex items-center gap-3 ${compact ? 'mb-5' : 'mb-8'}`}>
+        <div className={`rounded-xl bg-gradient-to-br from-gold-400/25 to-gold-500/15 border border-gold-300/30 flex items-center justify-center ${compact ? 'w-10 h-10' : 'w-12 h-12'}`}>
+          <Search className={`text-gold-300 ${compact ? 'w-5 h-5' : 'w-6 h-6'}`} />
         </div>
         <div>
-          <h2 className="text-2xl sm:text-3xl font-semibold text-white">Build Your Search Brief</h2>
-          <p className={`${isOverlay ? 'text-navy-200/75' : 'text-navy-400'} text-base`}>
+          <h2 className={`font-semibold text-white ${compact ? 'text-xl sm:text-2xl' : 'text-2xl sm:text-3xl'}`}>Build Your Search Brief</h2>
+          <p className={`${isOverlay ? 'text-navy-200/75' : 'text-navy-400'} ${compact ? 'text-sm' : 'text-base'}`}>
             Configure market, asset type, and investment envelope
           </p>
         </div>
       </div>
 
-      <div className={`grid grid-cols-1 lg:grid-cols-3 ${compact ? 'gap-5' : 'gap-6'} mb-7`}>
+      <div className={`grid grid-cols-1 lg:grid-cols-3 ${compact ? 'gap-4' : 'gap-6'} ${compact ? 'mb-5' : 'mb-7'}`}>
         <SelectField
           label="Location"
           value={location}
@@ -210,12 +214,13 @@ export default function QueryBuilder({
         />
       </div>
 
-      <div className={compact ? 'mb-7' : 'mb-8'}>
+      <div className={compact ? 'mb-5' : 'mb-8'}>
         <MultiSelectField
           selected={features}
           onChange={setFeatures}
           options={FEATURES}
           isOverlay={isOverlay}
+          compact={compact}
         />
       </div>
 
@@ -223,8 +228,8 @@ export default function QueryBuilder({
         type="submit"
         disabled={!canSubmit}
         whileTap={canSubmit ? { scale: 0.99 } : undefined}
-        className={`w-full rounded-xl text-lg font-semibold uppercase tracking-[0.12em] transition-all flex items-center justify-center gap-2 ${
-          compact ? 'py-[1.2rem]' : 'py-[1.35rem]'
+        className={`w-full rounded-xl font-semibold uppercase tracking-[0.12em] transition-all flex items-center justify-center gap-2 ${
+          compact ? 'py-4 text-sm' : 'py-[1.35rem] text-lg'
         } ${
           canSubmit
             ? 'bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 text-navy-950 shadow-lg shadow-gold-500/25 hover:brightness-105'

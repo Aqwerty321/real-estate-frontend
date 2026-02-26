@@ -14,7 +14,7 @@ export default function Navbar({ isScrolled = false }) {
           : 'bg-transparent border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 sm:h-24 lg:h-28 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 h-16 sm:h-20 lg:h-24 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-gold-300 to-gold-500 flex items-center justify-center shadow-lg shadow-gold-500/30">
             <Building2 className="w-6 h-6 text-navy-950" />

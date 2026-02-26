@@ -76,7 +76,7 @@ export default function HeroCinematic({
       <div className="hero-vignette" />
 
       <div className="relative z-10 h-full px-4 sm:px-8">
-        <div className="max-w-7xl mx-auto min-h-screen flex flex-col justify-center items-center pt-32 pb-56 sm:pb-64">
+        <div className="max-w-7xl mx-auto min-h-screen flex flex-col justify-center items-center pt-28 pb-60 sm:pb-72">
           <motion.div
             initial="hidden"
             animate="visible"

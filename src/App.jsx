@@ -144,7 +144,7 @@ export default function App() {
           scrollProgress={progress}
         />
 
-        <div className="relative z-20 -mt-[16rem] sm:-mt-[18rem] lg:-mt-[20rem] px-4 sm:px-8">
+        <div className="relative z-20 -mt-[14rem] sm:-mt-[16rem] lg:-mt-[18rem] px-4 sm:px-8">
           <QueryDock onSubmit={handleSubmit} isLoading={loading} error={error} onRetry={handleRetry} />
         </div>
 
